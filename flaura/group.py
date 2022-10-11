@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022 Fiana Fortressia
+#
+# SPDX-License-Identifier: MIT OR APACHE-2.0
+
 from typing import *
 import click
 class OrderedGroup(click.Group):
