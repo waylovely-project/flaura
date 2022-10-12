@@ -8,7 +8,7 @@ import os
 from typing import Optional 
 def _get_home_from_cwd(parent: Optional[Path]):
     cwd = parent or Path.cwd()
-    home = cwd.with_name("flaura.toml")
+    home = cwd.joinpath("flaura.toml")
     if home.exists():
         return home
     else:
@@ -23,4 +23,4 @@ def get_home():
 @click.command()
 def init():
     """Initialize a flaura upstreams file in the current working directory!!"""
-    Path.cwd().with_name("kawaii.toml").touch()
+    Path.cwd().joinpath("flaura.toml").touch()
