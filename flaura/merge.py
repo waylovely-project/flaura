@@ -16,6 +16,14 @@ import filecmp
 @click.option("--theirs", is_flag=True)
 @click.option("--union", is_flag=True)
 def merge(origin, current_path, home, ours, theirs, union): 
+    """Merge a URI source with a folder. At the moment only supports file:// URI.
+    Uses the GNU RCS' merge command if available, but will use Git's merge-file command if Git is installed!!
+
+    If there is a conflict, Git merge conflicts will appear in the files, and you can use Git integrations in your code editors to resolve them! 
+    Pretty much this command runs like Git's behavior!
+
+    origin: "The URI source to merge into current_path. At the moment. Example: file://../smithay/anvil"
+    """
     url = urlparse(origin)
 
     if url.scheme == "file":
