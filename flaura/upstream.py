@@ -16,12 +16,14 @@ def upstream():
 def add(origin, path):
     """Add an upstream! 
     
-    The origin 
     """
     home_path = get_home()
 
-    home = home_path.open(mode="rw")
+    print("This command is not yet implemented!")
+    exit(1)
 
-    home.read()
+    with home_path.open(mode="rw") as home_fd:
+        home = tomlkit.parse(home_fd.read())
 
+    
 upstream.add_command(add)
