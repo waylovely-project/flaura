@@ -4,6 +4,24 @@
 
 import click 
 from .home import get_home
-@click.command()
+@click.group()
 def upstream():
-    get_home()
+    """Commands to manage upstreams!! <3"""
+    pass
+
+@click.command()
+@click.argument("origin")
+@click.argument("path", required=False)
+@click.option("--home", is_flag=True)
+def add(origin, path):
+    """Add an upstream! 
+    
+    The origin 
+    """
+    home_path = get_home()
+
+    home = home_path.open(mode="rw")
+
+    home.read()
+
+upstream.add_command(add)
