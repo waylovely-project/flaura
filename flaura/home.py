@@ -17,4 +17,6 @@ def _get_home_from_cwd(parent: Optional[Path]):
             exit(1)
         _get_home_from_cwd(cwd.parent)
 def get_home():
-    os.environ.get("FLAURA_HOME") or _get_home_from_cwd(None)
+    return Path(os.environ.get("FLAURA_HOME") or _get_home_from_cwd(None))
+
+
