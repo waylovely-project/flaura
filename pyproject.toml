@@ -3,7 +3,7 @@ name = "flaura"
 version = "0.1.0"
 description = "Merge upstream with ease!"
 authors = ["Fiana Fortressia <nefothingy@hotmail.com>"]
-license = "APACHE OR MIT"
+license = "APACHE-2.0 OR MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
