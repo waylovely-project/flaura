@@ -20,3 +20,7 @@ def get_home():
     return Path(os.environ.get("FLAURA_HOME") or _get_home_from_cwd(None))
 
 
+@click.command()
+def init():
+    """Initialize a flaura upstreams file in the current working directory!!"""
+    Path.cwd().with_name("kawaii.toml").touch()
