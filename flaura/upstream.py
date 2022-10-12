@@ -36,4 +36,19 @@ def add(origin, path, home):
         with home_path.open(mode="w") as home_fd:
             home_fd.write(tomlkit.dumps(home))
     
+@click.command()
+@click.argument("name", type=str)
+def remove(name):
+    home_path = get_home()
+    
+    with home_path.open(mode="r") as home_fd:
+        home = tomlkit.parse(home_fd.read())
+        home.remove(name)
+        with home_path.open(mode="w") as home_fd:
+            home_fd.write(tomlkit.dumps(home))
+
+
+
+
+upstream.add_command(remove)
 upstream.add_command(add)
