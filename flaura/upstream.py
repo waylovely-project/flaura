@@ -8,25 +8,6 @@ from .home import get_home
 import tomlkit
 from os import path
 
-@click.group( invoke_without_command=True)
-@click.pass_context
-def upstream(ctx):
-    """Commands to manage upstreams!! <3"""
-    if ctx.invoked_subcommand is None:
-        home_path = get_home()
-        with home_path.open(mode="r") as home_fd:
-            home = tomlkit.parse(home_fd.read())
-            for upstream in home.keys():
-                click.secho(" " + upstream + " ", bg="green", fg="bright_white")
-                click.echo(click.style("url: ", bold=True) + home[upstream]["origin"])
-                click.echo(click.style("folder: ", bold=True) + (home[upstream].get("folder") or str(home_path.parent.joinpath(upstream))) + "\n")
-            
-
-        click.echo("Run flaura upstream --help for all commands <3")
-    else:
-        pass
-
-
 @click.command()
 @click.argument("origin")
 @click.argument("path", required=False)
@@ -65,6 +46,16 @@ def remove(name):
 
 
 
+@click.command("list")
+def list_sources_cmd():
+     list_sources()
 
-upstream.add_command(remove)
-upstream.add_command(add)
+def list_sources():
+    home_path = get_home()
+    with home_path.open(mode="r") as home_fd:
+        home = tomlkit.parse(home_fd.read())
+        for upstream in home.keys():
+            click.secho(" " + upstream + " ", bg="green", fg="bright_white")
+            click.echo(click.style("url: ", bold=True) + home[upstream]["origin"])
+            click.echo(click.style("folder: ", bold=True) + (home[upstream].get("folder") or str(home_path.parent.joinpath(upstream))) + "\n")
+            
