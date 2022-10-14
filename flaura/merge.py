@@ -8,14 +8,14 @@ import subprocess
 from urllib.parse import urlparse
 import click 
 import filecmp
-@click.command()
+@click.command("merge")
 @click.argument("origin", required=False)
 @click.argument("current_path", type=Path, required=False)
 @click.option("--home", is_flag=True)
 @click.option("--ours", is_flag=True)
 @click.option("--theirs", is_flag=True)
 @click.option("--union", is_flag=True)
-def merge(origin, current_path, home, ours, theirs, union): 
+def merge_cmd(origin, current_path, home, ours, theirs, union): 
     """Merge a URI source with a folder. At the moment only supports file:// URI.
     Uses the GNU RCS' merge command if available, but will use Git's merge-file command if Git is installed!!
 
@@ -24,6 +24,9 @@ def merge(origin, current_path, home, ours, theirs, union):
 
     origin: "The URI source to merge into current_path. At the moment. Example: file://../smithay/anvil"
     """
+    merge(origin, current_path, home, ours, theirs, union)
+    
+def merge(origin, current_path: Path, home, ours, theirs, union):
     url = urlparse(origin)
 
     if url.scheme == "file":

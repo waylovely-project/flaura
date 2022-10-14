@@ -5,6 +5,7 @@
 from .home import init
 from .upstream import add, list_sources_cmd, remove
 import click 
+from .merge import merge, merge_cmd
 from .group import OrderedGroup 
 
 @click.group(cls=OrderedGroup)
@@ -14,7 +15,7 @@ def flaura():
     """
     pass
 
-flaura.add_command(merge)
+flaura.add_command(merge_cmd)
 flaura.add_command(init)
 flaura.add_command(add)
 flaura.add_command(remove)
