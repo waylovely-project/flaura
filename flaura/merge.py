@@ -78,12 +78,21 @@ def merge_inner(parent: Path, target_path: Path, **kwargs):
                             command = ["merge"]
                         elif shutil.which("git"):
                             command = ["git", "merge-file"]
+                        options = []
+
+                        if kwargs.get("ours"):
+                            options.push( "--ours" )
+                        elif kwargs.get("theirs"):
+                            options.push( "--theirs" ) 
+                        elif kwargs.get("diff3"):
+                            options.push( "--diff3" ) 
+                        elif kwargs.get("zdiff3"):
+                            options.push( "--zdiff3" )
+                        elif kwargs.get("union"):
+                            options.push( "--union" )
+                            
                         subprocess.run([*command, target, path, target, 
-                        "--ours" if kwargs["ours"] else "", 
-                        "--theirs" if kwargs["theirs"] else "", 
-                        "--diff3" if kwargs["diff3"] else "", 
-                        "--zdiff3" if kwargs["zdiff3"] else "",
-                        "--union" if kwargs["union"] else ""])
+                       ], check=True)
             else:
                 shutil.copyfile(path, target)
         
