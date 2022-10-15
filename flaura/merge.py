@@ -55,6 +55,8 @@ def merge(origin, current_path: Path, home, ours, theirs, union):
         
 
 def merge_inner(parent: Path, target_path: Path, **kwargs):
+    if not target_path.exists():
+        target_path.mkdir(parents=True)
     for path in parent.iterdir():
         target = target_path.joinpath(path.name)
         if path.is_dir():
