@@ -2,10 +2,13 @@
 #
 # SPDX-License-Identifier: MIT OR APACHE-2.0
 
+from collections import namedtuple
+import hashlib
 import shutil 
 from pathlib import Path
 import subprocess
-from urllib.parse import urlparse
+from urllib.parse import ParseResult, urlparse, urlunparse
+from .home import get_home
 import click 
 import filecmp
 @click.command("merge")
@@ -33,6 +36,21 @@ def merge(origin, current_path: Path, home, ours, theirs, union):
         path = Path(url.netloc+"/"+url.path)
 
         merge_inner(path, current_path, home=home, ours=ours, theirs=theirs, union=union)
+    if url.scheme.startswith("git+") or url.netloc == "github.com":
+        url2 = ParseResult(url.scheme.removeprefix("git+"), url.netloc, url.path, url.params, url.query, url.fragment)
+        dist = get_home().parent.joinpath(".flaura", "origins", 
+        (url.scheme + "+" + url.netloc+"+"+url.path.split("/")[-2] + "/" +url.path.split("/")[-1] + "+" +  hashlib.md5(origin.encode("utf-8")).hexdigest() ) )
+        if not dist.exists():
+            print(dist)
+            dist.mkdir(parents=True)
+            subprocess.run(["git", "clone", urlunparse(url2), dist], cwd=dist)
+
+        merge_inner(dist, current_path, home=home, ours=ours, theirs=theirs, union=union)
+
+    else:
+        click.echo(f"{url.scheme} for {origin} is not yet implemented. Sorry!! <3", err=True)
+        exit(1)
+    
         
         
 
