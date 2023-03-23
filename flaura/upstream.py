@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: MIT OR APACHE-2.0
 
 from pathlib import Path
+from typing import Union
 import click 
 from .home import get_home
 import tomlkit
@@ -11,8 +12,9 @@ from os import path
 @click.command()
 @click.argument("origin")
 @click.argument("path", required=False)
+@click.option("--only", required=False)
 @click.option("--home", is_flag=True)
-def add(origin, path, home):
+def add(origin, path, home, only):
     """Add an upstream! 
     
     """
@@ -28,7 +30,12 @@ def add(origin, path, home):
         home = tomlkit.parse(home_fd.read())
         upstream = tomlkit.table()
         upstream["origin"] = origin
+        if only:
+            upstream["only"] = only
+
+            
         home.append(str(path), upstream)
+     
 
         with home_path.open(mode="w") as home_fd:
             home_fd.write(tomlkit.dumps(home))

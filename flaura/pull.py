@@ -18,8 +18,6 @@ def pull(ours, theirs, union):
                 click.echo(f"{upstream}", err=True)
                 exit(1)
             dist = home_path.parent.joinpath(home[upstream].get("folder") or upstream)
-            if not dist.exists():
-                click.echo(f"{str(dist)} does not exist!", err=True)
-                exit(1)
-            merge(home[upstream]["origin"], dist, False, ours, theirs, union)
+          
+            merge(home[upstream]["origin"], dist, False, ours, theirs, union, home[upstream].get("only"))
             
